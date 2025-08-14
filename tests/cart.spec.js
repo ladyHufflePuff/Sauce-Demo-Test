@@ -1,28 +1,33 @@
-import {test} from '@playwright/test';
-import * as cartTests from '../commands/cart'
+import { test } from '@playwright/test';
+import {LoginTests} from '../commands/login'
+import { CartTests } from '../commands/cart';
 
-test.describe('Cart Tests', () =>{
-    test ('Add single item to cart test', async ({page}) =>{
-        await cartTests.addSingleItemToCartTest(page);
-     });
-     
-     test ('Add multiple items to cart test', async ({page}) =>{
-         await cartTests.addMultipleItemsToCartTest(page);
-     });
-     
-     test ('Empty cart test', async ({page}) =>{
-         await cartTests.emptyCartTest(page);
-         
-     });
+test.describe('Cart Tests', () => {
+    let cartTests, login;
 
-     test ('Remove an item from cart test', async ({page}) =>{
-         await cartTests.removeItemFromCartTest(page);
-     });
-     
-     test ('Cart persistence test', async ({page}) =>{
-         await cartTests.cartPersistenceTest(page);
-         
-     });
+    test.beforeEach(async ({ page }) => {
+        cartTests = new CartTests(page);
+        login = new LoginTests(page)
+        await login.positiveLoginTest();
+    });
+
+    test('Add single item to cart', async () => {
+        await cartTests.addSingleItemToCartTest();
+    });
+
+    test('Add multiple items to cart', async () => {
+        await cartTests.addMultipleItemsToCartTest();
+    });
+
+    test('Empty cart test', async () => {
+        await cartTests.emptyCartTest();
+    });
+
+    test('Remove item from cart', async () => {
+        await cartTests.removeItemFromCartTest();
+    });
+
+    test('Cart persistence test', async () => {
+        await cartTests.cartPersistenceTest();
+    });
 });
-
-

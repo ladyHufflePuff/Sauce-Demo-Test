@@ -1,55 +1,42 @@
 const fs = require('fs');
 const { expect } = require('@playwright/test');
-const { LoginPage } = require('../page-object-model/login.page');
-const {ProductPage} = require('../page-object-model/product.page');
+const { ProductPage } = require('../page-object-model/product.page');
 
-const testDataPath = 'testdata/data.json';
-const testData = JSON.parse(fs.readFileSync(testDataPath, 'utf8'));
+const testData = JSON.parse(fs.readFileSync('testdata/data.json', 'utf8'));
 
+class ProductTests {
+    constructor(page) {
+        this.page = page;
+        this.productPage = new ProductPage(page);
+    }
 
-async function login(page) {
-    const loginPage = new LoginPage(page);
-    const productPage = new ProductPage(page);
+    async productImagesVisibleTest() {
+        const products = testData[2].products;
 
-    await loginPage.gotoLoginPage();
-    await loginPage.login(
-        testData[1].login[0].username,
-        testData[1].login[0].password
-    );
+        for (const name of products) {
+            const image = this.productPage.getItemImage(name);
+            await expect(image).toBeVisible();
+            await expect(image).toHaveAttribute('src', /.+/);
+        }
+    }
 
-    return productPage;
+    async productNamesVisibleTest() {
+        const count = await this.productPage.product_names.count();
+        for (let i = 0; i < count; i++) {
+            const name = await this.productPage.product_names.nth(i).textContent();
+            expect(name.trim().length).toBeGreaterThan(0);
+            expect(/^[A-Za-z0-9\s-]+$/.test(name)).toBe(true);
+        }
+    }
+
+    async productDescriptionsVisibleTest() {
+        const count = await this.productPage.product_descriptions.count();
+        for (let i = 0; i < count; i++) {
+            const desc = await this.productPage.product_descriptions.nth(i).textContent();
+            expect(desc.trim().length).toBeGreaterThan(0);
+            expect(/^[A-Za-z0-9\s,.'"()!-]+$/.test(desc)).toBe(true);
+        }
+    }
 }
 
-exports.productImagesVisibleTest = async (page) => {
-    const productPage = await login(page);
-    const products = testData[2].products
-
-    for (const name of products) {
-        const image = productPage.getItemImage(name);
-        await expect(image).toBeVisible();
-        await expect(image).toHaveAttribute('src', /.+/);
-    }
-};
-
-exports.productNamesVisibleTest = async (page) => {
-    const productPage = await login(page);
-
-    const count = await productPage.product_names.count();
-    for (let i = 0; i < count; i++) {
-        const name = await productPage.product_names.nth(i).textContent();
-        expect(name.trim().length).toBeGreaterThan(0);
-        expect(/^[A-Za-z0-9\s-]+$/.test(name)
-).toBe(true);
-    }
-};
-
-exports.productDescriptionsVisibleTest = async (page) => {
-    const productPage = await login(page);
-
-    const count = await productPage.product_descriptions.count();
-    for (let i = 0; i < count; i++) {
-        const desc = await productPage.product_descriptions.nth(i).textContent();
-        expect(desc.trim().length).toBeGreaterThan(0);
-        expect(/^[A-Za-z0-9\s,.'"()!-]+$/.test(desc)).toBe(true); 
-    }
-};
+module.exports = { ProductTests };

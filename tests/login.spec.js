@@ -1,28 +1,32 @@
 import {test} from '@playwright/test';
-import * as loginTests from '../commands/login'
+import {LoginTests} from '../commands/login'
 
 test.describe('Login Tests', () =>{
-    test ('Positive Login test', async ({page}) =>{
-        await loginTests.positiveLoginTest(page);
-     });
-     
-     test ('Negative username test', async ({page}) =>{
-         await loginTests.negativeUsernameTest(page);
-     });
-     
-     test ('Negative password test', async ({page}) =>{
-         await loginTests.negativePasswordTest(page);
-         
-     });
+    let loginTests;
 
-     test ('Missing username test', async ({page}) =>{
-         await loginTests.missingUsernameTest(page);
-     });
-     
-     test ('Missing password test', async ({page}) =>{
-         await loginTests.missingPasswordTest(page);
-         
-     });
+    test.beforeEach(async ({ page }) => {
+        loginTests = new LoginTests(page);
+    });
+
+   test('Positive Login test', async () => {
+        await loginTests.positiveLoginTest();
+    });
+
+    test('Negative username test', async () => {
+        await loginTests.negativeUsernameTest();
+    });
+
+    test('Negative password test', async () => {
+        await loginTests.negativePasswordTest();
+    });
+
+    test('Missing username test', async () => {
+        
+        await loginTests.missingUsernameTest();
+    });
+
+    test('Missing password test', async () => {
+        await loginTests.missingPasswordTest();
+    });
 });
-
 

@@ -1,28 +1,37 @@
-import { test } from '@playwright/test';
-import * as checkoutTests from '../commands/checkout';
+import { test } from'@playwright/test';
+import {LoginTests} from '../commands/login'
+import { CheckoutTests } from'../commands/checkout';
 
 test.describe('Checkout Tests', () => {
-    test('Valid checkout', async ({ page }) => {
-        await checkoutTests.validCheckoutTest(page);
+    let checkout, login;
+
+    test.beforeEach(async ({ page }) => {
+        checkout = new CheckoutTests(page);
+        login = new LoginTests(page)
+        await login.positiveLoginTest();
     });
 
-    test('Missing first name test', async ({ page }) => {
-        await checkoutTests.missingFirstNameTest(page);
+    test('Valid checkout', async () => {
+        await checkout.validCheckoutTest();
     });
 
-    test('Missing last name test', async ({ page }) => {
-        await checkoutTests.missingLastNameTest(page);
+    test('Missing first name test', async () => {
+        await checkout.missingFirstNameTest();
     });
 
-    test('Missing zip code test', async ({ page }) => {
-        await checkoutTests.missingZipTest(page);
+    test('Missing last name test', async () => {
+        await checkout.missingLastNameTest();
     });
 
-    test('Special characters in info test', async ({ page }) => {
-        await checkoutTests.specialCharsCheckoutTest(page);
+    test('Missing zip code test', async () => {
+        await checkout.missingZipTest();
     });
 
-     test('Empty cart checkout test', async ({ page }) => {
-        await checkoutTests.emptyCartCheckoutTest(page);
+    test('Special characters in info test', async () => {
+        await checkout.specialCharsCheckoutTest();
+    });
+
+    test('Empty cart checkout test', async () => {
+        await checkout.emptyCartCheckoutTest();
     });
 });
