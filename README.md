@@ -104,7 +104,7 @@ Ensure you have the following installed:
 
    ```bash
    git clone https://github.com/ladyHufflePuff/Sauce-Demo-Test.git
-   cd Sauce-Demo-Tests
+   cd Sauce-Demo-Test
    ```
 
 2. **Install Dependencies**
