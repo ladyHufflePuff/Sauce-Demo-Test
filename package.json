@@ -1,0 +1,25 @@
+{
+  "name": "sauce-demo-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ladyHufflePuff/Sauce-Demo-Test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ladyHufflePuff/Sauce-Demo-Test/issues"
+  },
+  "homepage": "https://github.com/ladyHufflePuff/Sauce-Demo-Test#readme",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.54.2",
+    "@types/node": "^24.2.1"
+  }
+}
