@@ -46,6 +46,16 @@
             "Sauce Labs Onesie",
             "Test.allTheThings() T-Shirt (Red)"
         ]
+    },
+
+        {
+        "checkout": [
+            { "firstName": "John", "lastName": "Doe", "zip": "90502" },
+            { "firstName": "", "lastName": "Doe", "zip": "90502" },
+            { "firstName": "John", "lastName": "", "zip": "90502" },
+            { "firstName": "John", "lastName": "Doe", "zip": "" },
+            { "firstName": "J0h#", "lastName": "D03", "zip": "9O$o2" }
+        ]
     }
 
   
