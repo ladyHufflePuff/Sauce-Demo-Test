@@ -2,14 +2,17 @@ const fs = require('fs');
 const { expect } = require('@playwright/test');
 const { ProductPage } = require('../page-object-model/product.page');
 
+// Load test data from JSON file
 const testData = JSON.parse(fs.readFileSync('testdata/data.json', 'utf8'));
 
 class ProductTests {
+    // Initialize page and productPage objects
     constructor(page) {
         this.page = page;
         this.productPage = new ProductPage(page);
     }
 
+    // Test: Verify that all product images are visible and have a valid src attribute
     async productImagesVisibleTest() {
         const products = testData[2].products;
 
@@ -20,6 +23,7 @@ class ProductTests {
         }
     }
 
+    // Test: Verify that all product names are visible and contain only allowed characters
     async productNamesVisibleTest() {
         const count = await this.productPage.product_names.count();
         for (let i = 0; i < count; i++) {
@@ -29,6 +33,7 @@ class ProductTests {
         }
     }
 
+    // Test: Verify that all product descriptions are visible and contain only allowed characters
     async productDescriptionsVisibleTest() {
         const count = await this.productPage.product_descriptions.count();
         for (let i = 0; i < count; i++) {
