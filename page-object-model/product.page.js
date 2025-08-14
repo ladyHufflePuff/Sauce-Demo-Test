@@ -17,7 +17,10 @@ export class ProductPage{
             .replace(/[^a-z0-9().-]/g, '');
     }
 
-
+   getItemImage(itemName) {
+        const idName = this.getIdName(itemName);
+        return this.page.locator(`[data-test="inventory-item-${idName}-img"]`);
+    }
 
 
     async addToCart(itemName) { 
